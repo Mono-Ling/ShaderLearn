@@ -11,6 +11,7 @@ Shader "Unlit/ComplexLight"
         _SpecularColor ("Specular Color", Color) = (1, 1, 1, 1)
         _SpecNum ("Specular Number", Range(0, 200)) = 20
         _GradientFullMap ("Gradient Full Map", 2D) = "white" { }
+        _SpecularPower("Specular Power",Range(0,1)) = 1
     }
     SubShader
     {
@@ -50,13 +51,14 @@ Shader "Unlit/ComplexLight"
             float4 _SpecularColor;
             float _SpecNum;
             sampler2D _GradientFullMap;
+            float _SpecularPower;
 
             fixed3 SpecularBlinn(in float3 normal, in float3 wPos,in float3 lightDir)
             {
                 float3 viewDir = normalize(_WorldSpaceCameraPos.xyz - wPos);
                 float3 halfDir = normalize(lightDir + viewDir);
                 fixed3 specular=_LightColor0.rgb *_SpecularColor.rgb * pow(max(0,dot(normalize(normal),halfDir)),_SpecNum);
-                return specular;
+                return specular* _SpecularPower;
             }
             v2f vert (appdata_full v)
             {
@@ -132,13 +134,14 @@ Shader "Unlit/ComplexLight"
             float4 _SpecularColor;
             float _SpecNum;
             sampler2D _GradientFullMap;
+            float _SpecularPower;
 
             fixed3 SpecularBlinn(in float3 normal, in float3 wPos,in float3 lightDir)
             {
                 float3 viewDir = normalize(_WorldSpaceCameraPos.xyz - wPos);
                 float3 halfDir = normalize(lightDir + viewDir);
                 fixed3 specular=_LightColor0.rgb *_SpecularColor.rgb * pow(max(0,dot(normalize(normal),halfDir)),_SpecNum);
-                return specular;
+                return specular* _SpecularPower;
             }
             v2f vert (appdata_full v)
             {

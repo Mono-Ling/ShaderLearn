@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Hair
-  m_Shader: {fileID: 4800000, guid: 54a065ef28b366a409757dc2675b6cd4, type: 3}
+  m_Name: Reflective
+  m_Shader: {fileID: 4800000, guid: 4d575368e77efad4791b9ad06b2d5fb8, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -27,6 +27,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _CubeMap:
+        m_Texture: {fileID: 8900000, guid: 5ecee1c7ffa7fdc4488e883e836794b9, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -43,12 +47,8 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _GradientMap:
-        m_Texture: {fileID: 2800000, guid: 0da9b605449a4184691920e694ec38f7, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 202ca235aac47084b96be027ae5aec3a, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -76,22 +76,18 @@ Material:
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _SecondSpecularNum: 200
-    - _SecondSpecularPower: 0.2
-    - _SecondSpecularShift: 0.4
+    - _Reflectivity: 0.8
     - _SmoothnessTextureChannel: 0
-    - _SpecNum: 200
     - _SpecularHighlights: 1
-    - _SpecularNum: 200
-    - _SpecularPower: 0.4
-    - _SpecularShift: -0.4
+    - _SpecularNum: 50
+    - _SpecularPower: 0.6
     - _SrcBlend: 1
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _MainColor: {r: 1, g: 1, b: 1, a: 1}
-    - _SecondSpecularColor: {r: 1, g: 1, b: 1, a: 1}
+    - _MainColor: {r: 0.72327036, g: 0.72327036, b: 0.72327036, a: 1}
+    - _ReflectColor: {r: 1, g: 1, b: 1, a: 1}
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
