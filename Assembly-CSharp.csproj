@@ -64,8 +64,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Shader\Base\Phong3.shader" />
+    <None Include="Assets\Shader\Better\ScrollBK.shader" />
     <None Include="Assets\Shader\Base\NormalTangent.shader" />
     <None Include="Assets\Shader\Better\Glass.shader" />
+    <None Include="Assets\Shader\Better\UpdateAnimation.shader" />
     <None Include="Assets\Shader\Base\Lambert2.shader" />
     <None Include="Assets\Shader\Better\KajiaKay.shader" />
     <None Include="Assets\Shader\Base\GradientFull.shader" />
