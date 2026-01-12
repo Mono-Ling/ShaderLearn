@@ -1445,7 +1445,10 @@ GameObject:
   - component: {fileID: 1436026748}
   - component: {fileID: 1436026749}
   - component: {fileID: 1436026750}
-  - component: {fileID: 1436026751}
+  - component: {fileID: 1436026754}
+  - component: {fileID: 1436026753}
+  - component: {fileID: 1436026755}
+  - component: {fileID: 1436026756}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1534,7 +1537,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1436026744}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d3b2c07392a05994395bf77f81968aac, type: 3}
   m_Name: 
@@ -1573,14 +1576,32 @@ MonoBehaviour:
   edgeColor: {r: 0, g: 0, b: 0, a: 0}
   BKColor: {r: 1, g: 1, b: 1, a: 0}
   BKExtent: 1
---- !u!114 &1436026751
+--- !u!114 &1436026753
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1436026744}
-  m_Enabled: 1
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8283f05f77f41e4687e4c5ecddd2113, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shader: {fileID: 4800000, guid: f5b5c87fa7bdd1848aa736a9d199e1af, type: 3}
+  LThreshold: 0
+  bloomColor: {r: 0, g: 0, b: 0, a: 0}
+  downSample: 1
+  iteration: 0
+  blurSpread: 0
+--- !u!114 &1436026754
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1436026744}
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 86f65f9251a181d47b2ec12ff8af4dfc, type: 3}
   m_Name: 
@@ -1589,6 +1610,40 @@ MonoBehaviour:
   downSample: 1
   iteration: 0
   blurSpread: 0
+--- !u!114 &1436026755
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1436026744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a553c24aa44ffd4ba65512baceb6f49, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shader: {fileID: 4800000, guid: 39b505961bb0225489e9252e43875058, type: 3}
+  fogColor: {r: 1, g: 1, b: 1, a: 0}
+  fogDensity: 0
+--- !u!114 &1436026756
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1436026744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5607c04786d9c9a499cb1f2f35fd9228, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shader: {fileID: 4800000, guid: 4896c2fbd9e342748a70a6453b4591d4, type: 3}
+  normalThreshold: 1
+  depthThreshold: 0.1
+  edgeColor: {r: 0, g: 0, b: 0, a: 0}
+  uvOffset: 2.5
+  depthSensitivity: 1
+  normalSensitivity: 0.432
 --- !u!1 &1540637130
 GameObject:
   m_ObjectHideFlags: 0

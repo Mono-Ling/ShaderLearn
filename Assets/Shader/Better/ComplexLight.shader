@@ -15,7 +15,7 @@ Shader "Unlit/ComplexLight"
     }
     SubShader
     {
-        
+        Tags{"RenderType"="Opaque"}
 
         Pass
         {

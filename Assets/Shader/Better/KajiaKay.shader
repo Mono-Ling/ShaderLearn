@@ -17,7 +17,7 @@ Shader "Unlit/KajiyaKay"
     }
     SubShader
     {
-        
+        Tags{"RenderType"="Opaque"}
 
         Pass
         {
