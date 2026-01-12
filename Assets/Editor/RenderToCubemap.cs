@@ -27,7 +27,7 @@ public class RenderToCubemap : EditorWindow
                 return;
             }
             GameObject posObj = new GameObject("¡Ÿ ±");
-            posObj.transform.parent = obj.transform;
+            posObj.transform.position = obj.transform.position;
             obj.SetActive(false);
             Camera camera = posObj.AddComponent<Camera>();
             camera.RenderToCubemap(cubeMap);
