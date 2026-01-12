@@ -27,9 +27,11 @@ Shader "Unlit/Glass++"
             {
                 float4 pos : SV_POSITION;
                 float4 uv : TEXCOORD0;//MainTexUV && BumpTexUV
-                float3x3 TBN : TEXCOORD1;
-                float3 wPos : TEXCOORD4;
-                float4 screenPos : TEXCOORD5;
+                float4 TBN_wPos0 : TEXCOORD1;
+                float4 TBN_wPos1 : TEXCOORD2;
+                float4 TBN_wPos2:  TEXCOORD3;
+                //float3 wPos : TEXCOORD4;
+                float4 screenPos : TEXCOORD4;
             };
 
             sampler2D _MainTex;
@@ -53,22 +55,26 @@ Shader "Unlit/Glass++"
                 float3 wBitangent = cross(normalize( wNormal),normalize( wTangent)) * v.tangent.w;
                 float3x3 TBN = transpose(float3x3(wTangent,wBitangent,wNormal));
                 o.screenPos = ComputeGrabScreenPos(o.pos);
-                o.wPos = wPos;
-                o.TBN = TBN;
+                //o.wPos = wPos;
+                //o.TBN = TBN;
+                o.TBN_wPos0.xyz = float4( TBN[0],wPos.x);
+                o.TBN_wPos1.xyz = float4( TBN[1],wPos.y);
+                o.TBN_wPos2.xyz = float4( TBN[2],wPos.z);
                 return o;
             }
 
             fixed4 frag (v2f i) : SV_Target
             {
-                float3x3 TBN = i.TBN;
-                float3 wViewDir = normalize( UnityWorldSpaceViewDir(i.wPos));
+                //float3x3 TBN = i.TBN;
+                float3 wPos = float3(i.TBN_wPos0.w,i.TBN_wPos1.w,i.TBN_wPos2.w);
+                float3 wViewDir = normalize( UnityWorldSpaceViewDir(wPos));
                 fixed4 texColor = tex2D(_MainTex, i.uv.xy);
                 float4 packedNormal = tex2D(_BumpMap,i.uv.zw);
                 float3 tangentNormal = UnpackNormal(packedNormal);
 
-                float3 wNormal = float3(dot(tangentNormal , TBN[0]),
-                                        dot(tangentNormal , TBN[1]),
-                                        dot(tangentNormal , TBN[2]));
+                float3 wNormal = float3(dot(tangentNormal , i.TBN_wPos0.xyz),
+                                        dot(tangentNormal , i.TBN_wPos1.xyz),
+                                        dot(tangentNormal , i.TBN_wPos2.xyz));
                 //∑¥…‰
                 float3 wReflectDir = reflect(-wViewDir,wNormal);
                 fixed4 reflectColor = texCUBE(_CubemapTex,wReflectDir) * texColor;
