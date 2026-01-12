@@ -15,7 +15,11 @@ public class EdgeDetectionDepthNormal : PostEffectBase
     [Range(0,1)]
     public float depthSensitivity;
     [Range(0,1)]
+    public float depthInterval;
+    [Range(0,1)]
     public float normalSensitivity;
+    [Range(0,1)]
+    public float normalInterval;
     [Range(0,1)]
     public float bkPower = 0;
     public Color bkColor;
@@ -37,6 +41,8 @@ public class EdgeDetectionDepthNormal : PostEffectBase
         material.SetColor("_EdgeColor",edgeColor);
         material.SetFloat("_DepthSensitivity", depthSensitivity);
         material.SetFloat("_NormalSensitivity", normalSensitivity);
+        material.SetFloat("_DepthInterval", depthInterval);
+        material.SetFloat("_NormalInterval",normalInterval);
         material.SetFloat("_BKPower", bkPower);
         material.SetColor("_BKColor", bkColor);
     }

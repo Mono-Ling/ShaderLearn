@@ -9,6 +9,8 @@ Shader "Unlit/EdgeDetectionDepthNormal"
         _EdgeColor("Edge Color",Color) = (1,1,1,1)
         _DepthSensitivity("Depth Sensitivity",Range(0,1)) = 1
         _NormalSensitivity("Normal Sensitivity",Range(0,1)) = 1
+        _DepthInterval("Depth Interval",Range(0,1)) = 1
+        _NormalInterval("Noamal Interval",Range(0,1)) = 1
         _BKPower("BK Power",Range(0,1)) = 1
         _BKColor("BK Color",Color) = (1,1,1,1)
     }
@@ -44,6 +46,8 @@ Shader "Unlit/EdgeDetectionDepthNormal"
             sampler2D _CameraDepthNormalsTexture;
             float _DepthSensitivity;
             float _NormalSensitivity;
+            float _DepthInterval;
+            float _NormalInterval;
             float _BKPower;
             fixed4 _BKColor;
 
@@ -70,9 +74,12 @@ Shader "Unlit/EdgeDetectionDepthNormal"
                 float depth1 = point1.w;
                 float3 normal2 = point2.xyz;
                 float depth2 = point2.w;
-                float diffNormal = (1 - abs(dot(normal1,normal2)))* _NormalSensitivity;
-                float diffDepth = abs(depth1-depth2) * _DepthSensitivity;
-                    return (diffNormal>_NormalThreshold|| diffDepth>_DepthThreshold) ? 1 : 0;
+                float diffNormal = (1 - abs(dot(normalize(normal1),normalize(normal2))))*_NormalSensitivity;
+                float diffDepth = abs(depth1-depth2)*_DepthSensitivity;
+                float normalNum = smoothstep(_NormalThreshold,min(_NormalThreshold+_NormalInterval,1),diffNormal);
+                float depthNum = smoothstep(_DepthThreshold,min(_DepthThreshold+_DepthInterval,1),diffDepth);
+                return (normalNum+depthNum)/(_DepthSensitivity+_NormalSensitivity);
+                //return (diffNormal>_NormalThreshold|| diffDepth>_DepthThreshold) ? 1 : 0;
                 //half2 diffNormal = abs(normal1 - normal2) * _NormalSensitivity;
                 //int isSameNormal = (diffNormal.x + diffNormal.y) < 0.1;
                 //float diffDepth = abs(depth1-depth2) * _DepthSensitivity;

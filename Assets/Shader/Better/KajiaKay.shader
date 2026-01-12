@@ -19,8 +19,7 @@ Shader "Unlit/KajiyaKay"
     }
     SubShader
     {
-        //Tags{"RenderType"="Opaque"}
-        Tags{"Queue"="Transparent"}
+        Tags{"Queue"="Transparent" "RenderType"="Opaque"}
 
         Pass
         {
