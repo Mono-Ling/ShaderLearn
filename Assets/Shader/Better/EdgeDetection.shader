@@ -73,8 +73,9 @@ Shader "Unlit/EdgeDetection"
                half edgeY = 0;
                for(int i=0;i<9;i++)
                {
-                   edgeX += Calcluminance(tex2D(_MainTex,uv[i])) * Gx[i];
-                   edgeY += Calcluminance(tex2D(_MainTex,uv[i])) * Gy[i];
+                   fixed4 color = tex2D(_MainTex,uv[i]);
+                   edgeX += Calcluminance(color) * Gx[i];
+                   edgeY += Calcluminance(color) * Gy[i];
                }
                return abs(edgeX) + abs(edgeY);
             }
