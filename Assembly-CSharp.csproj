@@ -60,6 +60,7 @@
     <Analyzer Include="D:\Unity\Learn\2022.3.62f3c1\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\PostEffect\GaussianBlur.cs" />
     <Compile Include="Assets\Scripts\PostEffect\EdgeDetection.cs" />
     <Compile Include="Assets\Scripts\PostEffect\PostEffectBase.cs" />
     <Compile Include="Assets\Scripts\PostEffect\BrightnessStaturationContrast.cs" />
@@ -80,6 +81,7 @@
     <None Include="Assets\Shader\Better\Billboard.shader" />
     <None Include="Assets\Shader\Better\EdgeDetection.shader" />
     <None Include="Assets\Shader\Better\ComplexLight.shader" />
+    <None Include="Assets\Shader\Better\GaussianBlur.shader" />
     <None Include="Assets\Shader\Better\Glass++.shader" />
     <None Include="Assets\Shader\Base\HalfLambert2.shader" />
     <None Include="Assets\Shader\Better\WaterVertexAnimation.shader" />
