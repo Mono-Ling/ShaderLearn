@@ -113,6 +113,7 @@
     <None Include="Assets\Shader\Better\MusicView.shader" />
     <None Include="Assets\Shader\Base\GradientBase.shader" />
     <None Include="Assets\Shader\Base\MoreLight.shader" />
+    <None Include="Assets\Shader\Better\Water.shader" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

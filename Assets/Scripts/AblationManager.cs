@@ -10,6 +10,7 @@ public class AblationManager : MonoBehaviour
     public Material body;
     public Material face;
     public Material hair;
+    public Material emote;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,9 +20,10 @@ public class AblationManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (body == null || face == null || hair == null) return;
+        if (body == null || face == null || hair == null || emote == null) return;
         body.SetFloat("_AblationProgress",ablationProgress);
         face.SetFloat("_AblationProgress", ablationProgress);
         hair.SetFloat("_AblationProgress", ablationProgress);
+        emote.SetFloat("_AblationProgress", ablationProgress);
     }
 }
