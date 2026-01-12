@@ -2,14 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[AddComponentMenu("ÆÁÄ»ºó´¦Àí/GaussianBlur")]
 public class GaussianBlur : PostEffectBase
 {
     [Range(1.0f, 8.0f)]
-    public int downSample;
+    public int downSample = 1;
     [Range(0f, 8.0f)]
     public int iteration;
     [Range(0,3)]
     public float blurSpread;
+    private void Start()
+    {
+        shader = Shader.Find("Unlit/GaussianBlur");
+    }
     protected override void OnRenderImage(RenderTexture source, RenderTexture destination)
     {
         if (material == null)

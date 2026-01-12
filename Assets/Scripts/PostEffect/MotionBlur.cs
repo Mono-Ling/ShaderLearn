@@ -2,11 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[AddComponentMenu("ÆÁÄ»ºó´¦Àí/MotionBlur")]
 public class MotionBlur : PostEffectBase
 {
     RenderTexture texture;
     [Range(0f, 0.9f)]
     public float blurPower;
+    private void Start()
+    {
+        shader = Shader.Find("Unlit/MotionBlur");
+    }
     protected override void OnRenderImage(RenderTexture source, RenderTexture destination)
     {
         if(material == null)

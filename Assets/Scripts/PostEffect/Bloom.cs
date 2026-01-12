@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[AddComponentMenu("ÆÁÄ»ºó´¦Àí/Bloom")]
 public class Bloom : PostEffectBase
 {
     [Range(0,1.5f)]
@@ -13,6 +14,10 @@ public class Bloom : PostEffectBase
     public int iteration;
     [Range(0, 3)]
     public float blurSpread;
+    private void Start()
+    {
+        shader = Shader.Find("Unlit/Bloom");
+    }
     protected override void OnRenderImage(RenderTexture source, RenderTexture destination)
     {
         if(material == null)

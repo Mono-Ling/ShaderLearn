@@ -67,6 +67,7 @@
     <Compile Include="Assets\Scripts\PostEffect\Bloom.cs" />
     <Compile Include="Assets\Scripts\PostEffect\BrightnessStaturationContrast.cs" />
     <Compile Include="Assets\Scripts\Rotate.cs" />
+    <Compile Include="Assets\Scripts\PostEffect\MotionBlurWithDepthTex.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Shader\Base\Phong3.shader" />
@@ -99,6 +100,7 @@
     <None Include="Assets\Shader\Better\BrightnessStaturationContrast.shader" />
     <None Include="Assets\Shader\Better\Refract.shader" />
     <None Include="Assets\Shader\Better\Reflective.shader" />
+    <None Include="Assets\Shader\Better\MotionBlurWithDepthTex.shader" />
     <None Include="Assets\Shader\Base\NormalWord.shader" />
     <None Include="Assets\Shader\Base\GradientBase.shader" />
     <None Include="Assets\Shader\Base\MoreLight.shader" />
