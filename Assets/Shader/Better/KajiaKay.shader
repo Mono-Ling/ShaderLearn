@@ -14,10 +14,46 @@ Shader "Unlit/KajiyaKay"
         _SecondSpecularNum("Second Specular Num",Range(1,500)) = 100
         _SecondSpecularPower("Second Specular Power",Range(0,1)) = 1
         _SecondSpecularShift("Second Specular Shift",Range(-1,1)) = 0
+        _EdgeColor("Edge Color",Color) = (1,1,1,1)
+        _EdgePower("EdgePower",Float) = 0.1
     }
     SubShader
     {
-        Tags{"RenderType"="Opaque"}
+        //Tags{"RenderType"="Opaque"}
+        Tags{"Queue"="Transparent"}
+
+        Pass
+        {
+            ZWrite Off
+            CGPROGRAM
+            #pragma vertex vert
+            #pragma fragment frag
+
+            #include "UnityCG.cginc"
+
+            struct v2f
+            {
+                //float2 uv : TEXCOORD0;
+                float4 pos : SV_POSITION;
+            };
+
+            fixed4 _EdgeColor;
+            float _EdgePower;
+
+            v2f vert (appdata_base v)
+            {
+                v2f o;
+                v.vertex.xyz += normalize(v.normal) * _EdgePower;
+                o.pos = UnityObjectToClipPos(v.vertex);
+                return o;
+            }
+
+            fixed4 frag (v2f i) : SV_Target
+            {
+                return _EdgeColor;
+            }
+            ENDCG
+        }
 
         Pass
         {
