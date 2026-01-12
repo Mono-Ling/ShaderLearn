@@ -4,6 +4,8 @@ Shader "Unlit/EdgeDetection"
     {
         _MainTex ("Texture", 2D) = "white" {}
         _EdgeColor("Edge Color",Color) = (1,1,1,1)
+        _BKExtent("BK Extent",Range(0,1)) = 1
+        _BKColor("BK Color",Color) = (1,1,1,1)
     }
     SubShader
     {
@@ -34,6 +36,8 @@ Shader "Unlit/EdgeDetection"
             float4 _MainTex_ST;
             half4 _MainTex_TexelSize;
             fixed4 _EdgeColor;
+            float _BKExtent;
+            fixed4 _BKColor;
 
             v2f vert (appdata v)
             {
@@ -78,7 +82,10 @@ Shader "Unlit/EdgeDetection"
             fixed4 frag (v2f i) : SV_Target
             {
                 fixed4 renderColor = tex2D(_MainTex,i.uv[4]);
-                fixed3 color = lerp(renderColor,_EdgeColor,Sobel(i.uv));
+                fixed G = Sobel(i.uv);
+                fixed3 initColor = lerp(renderColor,_EdgeColor,G);
+                fixed3 onlyEdgeColor = lerp(_BKColor,_EdgeColor,G);
+                fixed3 color = lerp( initColor,onlyEdgeColor,_BKExtent);
                 return fixed4(color,1);
             }
             ENDCG

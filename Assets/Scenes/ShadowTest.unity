@@ -1444,6 +1444,7 @@ GameObject:
   - component: {fileID: 1436026745}
   - component: {fileID: 1436026748}
   - component: {fileID: 1436026749}
+  - component: {fileID: 1436026750}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1537,7 +1538,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3b2c07392a05994395bf77f81968aac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 1030220655}
+  target: {fileID: 1756326854}
   speed: 20
 --- !u!114 &1436026749
 MonoBehaviour:
@@ -1555,6 +1556,20 @@ MonoBehaviour:
   Brightness: 1
   Staturation: 1
   Contrast: 1
+--- !u!114 &1436026750
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1436026744}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95035c8b5e07ef1409e245c270a82411, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shader: {fileID: 4800000, guid: 1810269f80a7eed488c79e43d57913dc, type: 3}
+  edgeColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &1540637130
 GameObject:
   m_ObjectHideFlags: 0
@@ -1649,6 +1664,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &1756326854 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: c09b0ebb37d8ac8448acf2e6fd8d3ef1, type: 3}
+  m_PrefabInstance: {fileID: 1395800648}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1770983764
 GameObject:
   m_ObjectHideFlags: 0
