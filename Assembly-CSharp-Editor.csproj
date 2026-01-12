@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Editor\RenderToCubemap.cs" />
+    <Compile Include="Assets\Editor\PerlinNoiseCreater.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

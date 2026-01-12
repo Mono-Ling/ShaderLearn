@@ -16,6 +16,7 @@ public class MusicView : MonoBehaviour
     public float min = 0;
     public float max = 0.1f;
     public Material material;
+    public bool isNormalize = true;
     // Start is called before the first frame update
     void Start()
     {
@@ -32,7 +33,10 @@ public class MusicView : MonoBehaviour
 
         if (material != null)
         {
-            material.SetFloatArray("_Audio", smoothedBands);
+            if (isNormalize)
+                material.SetFloatArray("_Audio",normalizedBands );
+            else
+                material.SetFloatArray("_Audio", smoothedBands);
         }
     }
     void CalculateFrequencyBands()
@@ -58,7 +62,7 @@ public class MusicView : MonoBehaviour
                     break;
                 }
             }
-            //for(int band = 0;band < 8; band++)
+            //for (int band = 0; band < 8; band++)
             //{
             //    frequencyBands[band] /= 8;
             //}

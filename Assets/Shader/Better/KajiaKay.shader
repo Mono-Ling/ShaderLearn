@@ -16,10 +16,23 @@ Shader "Unlit/KajiyaKay"
         _SecondSpecularShift("Second Specular Shift",Range(-1,1)) = 0
         _EdgeColor("Edge Color",Color) = (1,1,1,1)
         _EdgePower("EdgePower",Float) = 0.1
+
+        [Header(Ablation)]
+        _AblationGradientTex("Ablation Gradient Texture",2D) = "white" {}
+        _AblationNoiseTex("Ablation Noise Texture",2D) = "white" {}
+        _AblationEdgeRange("Ablation Edge",Float) = 1
+        _AblationProgress("Ablation Progress",Range(0,1)) = 0
     }
     SubShader
     {
         Tags{"Queue"="Transparent" "RenderType"="Opaque"}
+
+        CGINCLUDE
+            sampler2D _AblationNoiseTex;
+            sampler2D _AblationGradientTex;
+            float _AblationEdgeRange;
+            float _AblationProgress;
+        ENDCG
 
         Pass
         {
@@ -33,7 +46,7 @@ Shader "Unlit/KajiyaKay"
 
             struct v2f
             {
-                //float2 uv : TEXCOORD0;
+                float2 uv : TEXCOORD0;
                 float4 pos : SV_POSITION;
             };
 
@@ -45,12 +58,18 @@ Shader "Unlit/KajiyaKay"
                 v2f o;
                 v.vertex.xyz += normalize(v.normal) * _EdgePower;
                 o.pos = UnityObjectToClipPos(v.vertex);
+                o.uv = v.texcoord;
                 return o;
             }
 
             fixed4 frag (v2f i) : SV_Target
             {
-                return _EdgeColor;
+                float noiseNum =  tex2D(_AblationNoiseTex,i.uv.xy).r;
+                clip(_AblationProgress == 1 ? -1 : noiseNum - _AblationProgress);
+                float blendNum = 1 - smoothstep(0.0,_AblationEdgeRange,noiseNum-_AblationProgress);
+                fixed4 edgeColor = tex2D(_AblationGradientTex,fixed2(blendNum,0.5));
+                fixed4 finalColor = lerp(_EdgeColor, edgeColor,blendNum*step(0.0001,_AblationProgress));
+                return finalColor;
             }
             ENDCG
         }
@@ -133,6 +152,11 @@ Shader "Unlit/KajiyaKay"
 
             fixed4 frag (v2f i) : SV_Target
             {
+                float noiseNum =  tex2D(_AblationNoiseTex,i.uv.xy).r;
+                clip(_AblationProgress == 1 ? -1 : noiseNum - _AblationProgress);
+                float blendNum = 1 - smoothstep(0.0,_AblationEdgeRange,noiseNum-_AblationProgress);
+                fixed3 edgeColor = tex2D(_AblationGradientTex,fixed2(blendNum,0.5)).rgb;
+
                 float3 N = normalize(i.normal);
                 float3 T = normalize(i.tangent);
                 float3 B = normalize(i.binormal);
@@ -151,7 +175,8 @@ Shader "Unlit/KajiyaKay"
                 UNITY_LIGHT_ATTENUATION(atten, i,i.wPos);
                 //atten=0;
                 float3 color =  ( KaiyaKay+ diffuse) * atten + UNITY_LIGHTMODEL_AMBIENT.rgb * mainColor;
-                return fixed4(color, 1.0);
+                fixed3 finalColor = lerp(color, edgeColor,blendNum*step(0.0001,_AblationProgress));
+                return fixed4(finalColor, 1.0);
             }
             ENDCG
         }
@@ -232,6 +257,11 @@ Shader "Unlit/KajiyaKay"
 
             fixed4 frag (v2f i) : SV_Target
             {
+                float noiseNum =  tex2D(_AblationNoiseTex,i.uv.xy).r;
+                clip(_AblationProgress == 1 ? -1 : noiseNum - _AblationProgress);
+                float blendNum = 1 - smoothstep(0.0,_AblationEdgeRange,noiseNum-_AblationProgress);
+                fixed3 edgeColor = tex2D(_AblationGradientTex,fixed2(blendNum,0.5)).rgb;
+
                 float3 N = normalize(i.normal);
                 float3 T = normalize(i.tangent);
                 float3 B = normalize(i.binormal);
@@ -252,7 +282,42 @@ Shader "Unlit/KajiyaKay"
                                   KajiaKaySpecular(ShiftTangent(B,N, _SecondSpecularShift),i.wPos,lightDir,_SecondSpecularNum,_SecondSpecularPower,_SecondSpecularColor.rgb);
                 UNITY_LIGHT_ATTENUATION(atten, i, i.wPos);
                 float3 color = (KaiyaKay+  diffuse)* atten ;
-                return fixed4(color, 1.0);
+                fixed3 finalColor = lerp(color, edgeColor,blendNum*step(0.0001,_AblationProgress));
+                return fixed4(finalColor, 1.0);
+            }
+            ENDCG
+        }
+
+        Pass
+        {
+            Tags{ "LightMode"="ShadowCaster" }
+            CGPROGRAM
+            #pragma vertex vert
+            #pragma fragment frag
+            #pragma multi_compile_shadowcaster
+            #include "UnityCG.cginc"
+            #include "Lighting.cginc"
+            #include "AutoLight.cginc"
+            struct v2f
+            {
+                V2F_SHADOW_CASTER;
+                float2 uv : TEXCOORD0;
+            };
+            v2f vert (appdata_base v)
+            {
+                v2f o;
+                TRANSFER_SHADOW_CASTER_NORMALOFFSET(o);
+                o.uv = v.texcoord;
+                return o;
+            }
+            fixed4 frag (v2f i) : SV_Target
+            {
+                float noiseNum =  tex2D(_AblationNoiseTex,i.uv.xy).r;
+                clip(_AblationProgress == 1 ? -1 : noiseNum - _AblationProgress);
+                //float blendNum = 1 - smoothstep(0.0,_AblationEdgeRange,noiseNum-_AblationProgress);
+                //fixed3 edgeColor = tex2D(_AblationGradientTex,fixed2(blendNum,0.5)).rgb;
+                SHADOW_CASTER_FRAGMENT(i);
+                return 0;
             }
             ENDCG
         }

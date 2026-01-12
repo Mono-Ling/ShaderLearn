@@ -65,6 +65,7 @@
     <Compile Include="Assets\Scripts\PostEffect\MotionBlur.cs" />
     <Compile Include="Assets\Scripts\PostEffect\EdgeDetection.cs" />
     <Compile Include="Assets\Scripts\PostEffect\FOG.cs" />
+    <Compile Include="Assets\Scripts\AblationManager.cs" />
     <Compile Include="Assets\Scripts\PostEffect\PostEffectBase.cs" />
     <Compile Include="Assets\Scripts\PostEffect\Bloom.cs" />
     <Compile Include="Assets\Scripts\PostEffect\BrightnessStaturationContrast.cs" />

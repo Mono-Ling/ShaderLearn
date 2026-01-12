@@ -1704,7 +1704,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1436026744}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d3b2c07392a05994395bf77f81968aac, type: 3}
   m_Name: 
@@ -1799,7 +1799,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1436026744}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5607c04786d9c9a499cb1f2f35fd9228, type: 3}
   m_Name: 
@@ -2053,7 +2053,7 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1888486942}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: e12da05f7e1ba704bb8ed82c5390914b, type: 3}
@@ -2168,8 +2168,9 @@ MonoBehaviour:
   - 0
   - 0
   min: 0
-  max: 0.1
+  max: 1
   material: {fileID: 2100000, guid: 35e1edd6d3395df438a153da06e4f4cf, type: 2}
+  isNormalize: 1
 --- !u!64 &1888486945
 MeshCollider:
   m_ObjectHideFlags: 0

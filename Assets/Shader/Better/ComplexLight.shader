@@ -12,19 +12,34 @@ Shader "Unlit/ComplexLight"
         _SpecNum ("Specular Number", Range(0, 200)) = 20
         _GradientFullMap ("Gradient Full Map", 2D) = "white" { }
         _SpecularPower("Specular Power",Range(0,1)) = 1
+
+        [Header(Edge)]
         _EdgeColor("Edge Color",Color) = (1,1,1,1)
         _EdgePower("EdgePower",Float) = 0.1
-        _EdgeThreshold("Edge Threshold",Range(0,1)) = 1
+        [Space]
+
+        [Header(Ablation)]
+        _AblationGradientTex("Ablation Gradient Texture",2D) = "white" {}
+        _AblationNoiseTex("Ablation Noise Texture",2D) = "white" {}
+        _AblationEdgeRange("Ablation Edge",Float) = 1
+        _AblationProgress("Ablation Progress",Range(0,1)) = 0
     }
     SubShader
     {
         Tags{ "RenderType"="Opaque"}
 
+        CGINCLUDE
+            sampler2D _AblationNoiseTex;
+            sampler2D _AblationGradientTex;
+            float _AblationEdgeRange;
+            float _AblationProgress;
+        ENDCG
+
         Pass
         {
             //ZWrite Off
             Cull Front
-
+            
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
@@ -33,25 +48,30 @@ Shader "Unlit/ComplexLight"
 
             struct v2f
             {
-                //float2 uv : TEXCOORD0;
+                float2 uv : TEXCOORD0;
                 float4 pos : SV_POSITION;
             };
 
             fixed4 _EdgeColor;
             float _EdgePower;
-            float _EdgeThreshold;
 
             v2f vert (appdata_base v)
             {
                 v2f o;
                 v.vertex.xyz += normalize(v.normal) * _EdgePower;
                 o.pos = UnityObjectToClipPos(v.vertex);
+                o.uv = v.texcoord;
                 return o;
             }
 
             fixed4 frag (v2f i) : SV_Target
             {
-                return _EdgeColor;
+                float noiseNum =  tex2D(_AblationNoiseTex,i.uv.xy).r;
+                clip(_AblationProgress == 1 ? -1 : noiseNum - _AblationProgress);
+                float blendNum = 1 - smoothstep(0.0,_AblationEdgeRange,noiseNum-_AblationProgress);
+                fixed4 edgeColor = tex2D(_AblationGradientTex,fixed2(blendNum,0.5));
+                fixed4 finalColor = lerp(_EdgeColor, edgeColor,blendNum*step(0.0001,_AblationProgress));
+                return finalColor;
             }
             ENDCG
         }
@@ -120,6 +140,11 @@ Shader "Unlit/ComplexLight"
 
             fixed4 frag (v2f i) : SV_Target
             {
+                float noiseNum =  tex2D(_AblationNoiseTex,i.uv.xy).r;
+                clip(_AblationProgress == 1 ? -1 : noiseNum - _AblationProgress);
+                float blendNum = 1 - smoothstep(0.0,_AblationEdgeRange,noiseNum-_AblationProgress);
+                fixed3 edgeColor = tex2D(_AblationGradientTex,fixed2(blendNum,0.5)).rgb;
+
                 float3 wPos = float3(i.TBN_wPos0.w, i.TBN_wPos1.w, i.TBN_wPos2.w);
                 float4 packedTangent = tex2D(_BumpMap, i.uv.zw);
                 float3 normalT = UnpackNormal(packedTangent);
@@ -135,7 +160,8 @@ Shader "Unlit/ComplexLight"
                 fixed3 mainColor = tex2D(_MainTex, i.uv.xy).rgb * _MainColor;
                 fixed3 diffuse = _LightColor0.rgb * mainColor.rgb * tex2D(_GradientFullMap, float2(diffuseNum, diffuseNum)).rgb;
                 fixed3 color = UNITY_LIGHTMODEL_AMBIENT.rgb * mainColor + (diffuse + specular) * atten;
-                return float4(color, 1.0);
+                fixed3 finalColor = lerp(color, edgeColor,blendNum*step(0.0001,_AblationProgress));
+                return float4(finalColor, 1.0);
             }
             ENDCG
         }
@@ -204,6 +230,11 @@ Shader "Unlit/ComplexLight"
 
             fixed4 frag (v2f i) : SV_Target
             {
+                float noiseNum =  tex2D(_AblationNoiseTex,i.uv.xy).r;
+                clip(_AblationProgress == 1 ? -1 : noiseNum - _AblationProgress);
+                float blendNum = 1 - smoothstep(0.0,_AblationEdgeRange,noiseNum-_AblationProgress);
+                fixed3 edgeColor = tex2D(_AblationGradientTex,fixed2(blendNum,0.5)).rgb;
+
                 float3 wPos = float3(i.TBN_wPos0.w, i.TBN_wPos1.w, i.TBN_wPos2.w);
                 float4 packedTangent = tex2D(_BumpMap, i.uv.zw);
                 float3 normalT = UnpackNormal(packedTangent);
@@ -237,7 +268,8 @@ Shader "Unlit/ComplexLight"
                 fixed3 mainColor = tex2D(_MainTex, i.uv.xy).rgb * _MainColor;
                 fixed3 diffuse = _LightColor0.rgb * mainColor.rgb * tex2D(_GradientFullMap, float2(diffuseNum, diffuseNum)).rgb;
                 fixed3 color = ( diffuse + specular)*atten;
-                return float4(color, 1.0);
+                fixed3 finalColor = lerp(color, edgeColor,blendNum*step(0.0001,_AblationProgress));
+                return float4(finalColor, 1.0);
             }
             ENDCG
         }
@@ -254,15 +286,21 @@ Shader "Unlit/ComplexLight"
             struct v2f
             {
                 V2F_SHADOW_CASTER;
+                float2 uv : TEXCOORD0;
             };
             v2f vert (appdata_base v)
             {
                 v2f o;
                 TRANSFER_SHADOW_CASTER_NORMALOFFSET(o);
+                o.uv = v.texcoord;
                 return o;
             }
             fixed4 frag (v2f i) : SV_Target
             {
+                float noiseNum =  tex2D(_AblationNoiseTex,i.uv.xy).r;
+                clip(_AblationProgress == 1 ? -1 : noiseNum - _AblationProgress);
+                //float blendNum = 1 - smoothstep(0.0,_AblationEdgeRange,noiseNum-_AblationProgress);
+                //fixed3 edgeColor = tex2D(_AblationGradientTex,fixed2(blendNum,0.5)).rgb;
                 SHADOW_CASTER_FRAGMENT(i);
                 return 0;
             }
