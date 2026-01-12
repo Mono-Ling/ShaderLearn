@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\PostEffect\GaussianBlur.cs" />
+    <Compile Include="Assets\Scripts\PostEffect\MotionBlur.cs" />
     <Compile Include="Assets\Scripts\PostEffect\EdgeDetection.cs" />
     <Compile Include="Assets\Scripts\PostEffect\PostEffectBase.cs" />
     <Compile Include="Assets\Scripts\PostEffect\Bloom.cs" />
@@ -92,6 +93,7 @@
     <None Include="Assets\Shader\Base\Mask.shader" />
     <None Include="Assets\Shader\Base\Lambert1.shader" />
     <None Include="Assets\Shader\Base\HalfLambert1.shader" />
+    <None Include="Assets\Shader\Better\MotionBlur.shader" />
     <None Include="Assets\Shader\Base\Phong2.shader" />
     <None Include="Assets\Shader\Base\AlphaBlend.shader" />
     <None Include="Assets\Shader\Better\BrightnessStaturationContrast.shader" />
